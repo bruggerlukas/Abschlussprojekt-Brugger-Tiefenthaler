@@ -1,6 +1,4 @@
 """
-Konfiguration für das E-Bike-Abschlussprojekt.
-
 In dieser Datei stehen die festen Werte aus der Aufgabenstellung.
 Diese Werte werden später in der Simulation verwendet.
 """
