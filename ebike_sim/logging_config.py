@@ -1,21 +1,10 @@
-"""
-Das Programm schreibt wichtige Informationen in eine Logdatei.
-So kann später nachvollzogen werden, was beim Programmablauf passiert ist.
-"""
-
 import logging
 import os
 
 
 def setup_logging():
-    """
-    Richtet das Logging für das Projekt ein.
-    """
-
-    log_folder = "logs"
-
-    if not os.path.exists(log_folder):
-        os.makedirs(log_folder)
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
 
     logging.basicConfig(
         filename="logs/simulation.log",

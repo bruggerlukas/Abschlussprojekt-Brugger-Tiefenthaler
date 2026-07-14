@@ -1,7 +1,9 @@
-2026-07-14 18:41:45,550 - INFO - Logging wurde gestartet.
-2026-07-14 18:41:45,550 - INFO - Programm wurde gestartet.
-2026-07-14 18:41:45,550 - INFO - Simulation wird gestartet.
-2026-07-14 18:41:45,550 - INFO - GPS-Daten werden eingelesen.
-2026-07-14 18:41:45,560 - INFO - GPS-Daten wurden erfolgreich eingelesen. Anzahl Datenpunkte: 2284
-2026-07-14 18:41:45,560 - INFO - Fahrdaten werden berechnet.
-2026-07-14 18:41:45,965 - INFO - Fahrdaten wurden erfolgreich berechnet.
+2026-07-14 19:05:51,270 - INFO - Logging wurde gestartet.
+2026-07-14 19:05:51,271 - INFO - Programm wurde gestartet.
+2026-07-14 19:05:51,271 - INFO - Simulation wird gestartet.
+2026-07-14 19:05:51,271 - INFO - GPS-Daten werden eingelesen.
+2026-07-14 19:05:51,280 - INFO - GPS-Daten wurden erfolgreich eingelesen. Anzahl Datenpunkte: 2284
+2026-07-14 19:05:51,280 - INFO - Fahrdaten werden berechnet.
+2026-07-14 19:05:51,670 - INFO - Fahrdaten wurden erfolgreich berechnet.
+2026-07-14 19:05:51,785 - INFO - Simulation wurde erfolgreich beendet.
+2026-07-14 19:05:51,785 - INFO - Programm wurde ohne Fehler beendet.
