@@ -43,7 +43,13 @@ class SimulationConfig:
     Speichert allgemeine Einstellungen für die Simulation.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        initial_soc=1.0,
+        cell_capacity_ah=3.0,
+        parallel_cells=8,
+        series_cells=10
+    ):
         # Eingabedatei
         self.input_file = "data/final_project_input_data.csv"
 
@@ -55,10 +61,13 @@ class SimulationConfig:
         self.report_folder = "output/reports"
         self.log_folder = "logs"
 
-        # Start-Ladezustand des Akkus
-        self.start_soc = 1.0
+        # Einstellungen für den Akku
+        self.initial_soc = initial_soc
+        self.cell_capacity_ah = cell_capacity_ah
+        self.parallel_cells = parallel_cells
+        self.series_cells = series_cells
 
-        # Temperatur für einfache Akku-Simulation
+        # Temperatur für die Akku-Simulation
         self.temperature_c = 20.0
 
 
