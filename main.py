@@ -4,6 +4,7 @@ from ebike_sim.config import BikeConfig, SimulationConfig, create_output_folders
 from ebike_sim.logging_config import setup_logging
 from ebike_sim.data_loader import GPSDataLoader
 
+from ebike_sim.physics import RoutePhysicsCalculator
 
 def main():
     setup_logging()
@@ -16,6 +17,9 @@ def main():
 
     gps_loader = GPSDataLoader(simulation_config.input_file)
     gps_data = gps_loader.load_data()
+
+    route_calculator = RoutePhysicsCalculator(gps_data)
+    route_data = route_calculator.calculate()
 
     print("E-Bike-Abschlussprojekt")
     print("-----------------------")
@@ -33,6 +37,12 @@ def main():
     print("Letzter Zeitpunkt:", gps_data["time"].iloc[-1])
 
     logging.info("Programm wurde ohne Fehler beendet.")
+
+
+    print("Berechnete Strecke:", round(route_data["distance_total_m"].iloc[-1] / 1000, 2), "km")
+    print("Maximale Geschwindigkeit:", round(route_data["velocity_km_h"].max(), 2), "km/h")
+    print("Maximale Beschleunigung:", round(route_data["acceleration_m_s2"].max(), 2), "m/s²")
+    print("Maximale Steigung:", round(route_data["slope_percent"].max(), 2), "%")
 
 
 if __name__ == "__main__":
