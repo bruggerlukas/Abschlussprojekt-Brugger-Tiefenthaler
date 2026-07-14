@@ -18,7 +18,7 @@ def main():
     gps_loader = GPSDataLoader(simulation_config.input_file)
     gps_data = gps_loader.load_data()
 
-    route_calculator = RoutePhysicsCalculator(gps_data)
+    route_calculator = RoutePhysicsCalculator(gps_data, bike_config)
     route_data = route_calculator.calculate()
 
     print("E-Bike-Abschlussprojekt")
@@ -44,6 +44,9 @@ def main():
     print("Maximale Beschleunigung:", round(route_data["acceleration_m_s2"].max(), 2), "m/s²")
     print("Maximale Steigung:", round(route_data["slope_percent"].max(), 2), "%")
 
+    print("Maximale Leistung:", round(route_data["power_w"].max(), 2), "W")
+    print("Maximales Drehmoment:", round(route_data["torque_nm"].max(), 2), "Nm")
+    print("Maximaler Motorstrom:", round(route_data["motor_current_a"].max(), 2), "A")
 
 if __name__ == "__main__":
     main()

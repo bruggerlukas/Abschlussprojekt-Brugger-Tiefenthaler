@@ -2,15 +2,15 @@
 Rechnungen aus GPS Daten und physikalische Berechnungen
 """
 
-
 import logging
 import math
 
 
 class RoutePhysicsCalculator:
 
-    def __init__(self, data):
+    def __init__(self, data, bike_config):
         self.data = data.copy()
+        self.bike_config = bike_config
         self.logger = logging.getLogger(__name__)
 
     def calculate(self):
@@ -37,7 +37,6 @@ class RoutePhysicsCalculator:
                 height_difference = 0.0
                 slope_percent = 0.0
                 slope_rad = 0.0
-
             else:
                 lat1 = self.data.loc[i - 1, "lat"]
                 lon1 = self.data.loc[i - 1, "lon"]
@@ -91,6 +90,8 @@ class RoutePhysicsCalculator:
         self.data["slope_percent"] = slopes_percent
         self.data["slope_rad"] = slopes_rad
 
+        self.calculate_motor_values()
+
         self.logger.info("Fahrdaten wurden erfolgreich berechnet.")
 
         return self.data
@@ -110,3 +111,34 @@ class RoutePhysicsCalculator:
         c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
         return earth_radius * c
+
+    def calculate_motor_values(self):
+        forces = []
+        powers = []
+        torques = []
+        currents = []
+
+        for i in range(len(self.data)):
+            velocity = self.data.loc[i, "velocity_m_s"]
+            acceleration = self.data.loc[i, "acceleration_m_s2"]
+            slope_rad = self.data.loc[i, "slope_rad"]
+
+            force_acceleration = self.bike_config.total_mass_kg * acceleration
+            force_slope = self.bike_config.total_mass_kg * self.bike_config.gravity * math.sin(slope_rad)
+            force_roll = self.bike_config.total_mass_kg * self.bike_config.gravity * self.bike_config.roll_resistance_coefficient * math.cos(slope_rad)
+            force_air = 0.5 * self.bike_config.air_density * self.bike_config.cw_a * velocity ** 2
+
+            force_total = force_acceleration + force_slope + force_roll + force_air
+            power = force_total * velocity
+            torque = force_total * self.bike_config.wheel_radius_m
+            current = torque / self.bike_config.motor_constant_nm_per_a
+
+            forces.append(force_total)
+            powers.append(power)
+            torques.append(torque)
+            currents.append(current)
+
+        self.data["force_total_n"] = forces
+        self.data["power_w"] = powers
+        self.data["torque_nm"] = torques
+        self.data["motor_current_a"] = currents
