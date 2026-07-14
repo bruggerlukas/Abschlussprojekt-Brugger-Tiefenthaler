@@ -72,3 +72,118 @@ class BatteryPack:
 
     def set_temperature(self, temperature_c):
         self.temperature_c = float(temperature_c)
+
+    def ocv(self):
+        return float(np.interp(self.soc, self.soc_curve, self.ocv_curve_v))
+
+    def voltage(self, current_a=0.0):
+        voltage = self.ocv() - self.effective_resistance_ohm * current_a
+        return max(0.0, voltage)
+
+    def is_empty(self):
+        return self.soc <= 0
+
+    def is_full(self):
+        return self.soc >= 1
+
+    def reset(self, soc=None):
+        if soc is None:
+            soc = self.initial_soc
+        self.soc = float(np.clip(soc, 0.0, 1.0))
+
+    def current_for_power(self, power_w):
+        if abs(power_w) < 0.000000000001:
+            return 0.0
+
+        open_circuit_voltage = max(self.ocv(), 0.000001)
+        resistance = max(self.effective_resistance_ohm, 0.000000001)
+        discriminant = open_circuit_voltage ** 2 - 4 * resistance * power_w
+
+        if discriminant < 0:
+            return min(self.max_discharge_current_a,
+                       open_circuit_voltage / (2 * resistance))
+
+        current = (open_circuit_voltage - sqrt(discriminant)) / (2 * resistance)
+        return current
+
+    def apply_current(self, current_a, duration_s):
+        if duration_s < 0:
+            raise ValueError("Die Zeit darf nicht negativ sein.")
+
+        if duration_s == 0:
+            return BatteryStepResult(0.0, self.voltage(), self.soc,
+                                     0.0, 0.0, 0.0, 0.0, 0.0)
+
+        requested_current = float(current_a)
+        current = float(np.clip(requested_current,
+                                -self.max_charge_current_a,
+                                self.max_discharge_current_a))
+
+        capacity_as = self.effective_capacity_ah * 3600
+        old_soc = self.soc
+        new_soc = old_soc - current * duration_s / capacity_as
+        unmet_power_w = 0.0
+        brake_resistor_power_w = 0.0
+
+        if new_soc < 0:
+            current = old_soc * capacity_as / duration_s
+            current = max(0.0, current)
+            new_soc = 0.0
+            unmet_power_w = max(0.0, self.voltage(current) * (requested_current - current))
+            LOGGER.warning("%s: Akku ist leer", self.name)
+
+        if new_soc > 1:
+            current = -(1 - old_soc) * capacity_as / duration_s
+            current = min(0.0, current)
+            new_soc = 1.0
+            difference = requested_current - current
+            brake_resistor_power_w = abs(self.voltage(current) * difference)
+
+        self.soc = float(np.clip(new_soc, 0.0, 1.0))
+        voltage = self.voltage(current)
+        effective_power_w = voltage * current
+        heat_loss_w = self.effective_resistance_ohm * current ** 2
+
+        return BatteryStepResult(
+            current, voltage, self.soc,
+            self.voltage(requested_current) * requested_current,
+            effective_power_w, heat_loss_w,
+            brake_resistor_power_w, unmet_power_w
+        )
+
+    def apply_power(self, power_w, duration_s):
+        current = self.current_for_power(power_w)
+        return self.apply_current(current, duration_s)
+
+    def __str__(self):
+        return f"{self.name}(SoC={self.soc * 100:.1f}%, U_oc={self.ocv():.2f} V)"
+
+
+def create_lipo_battery(config=None, initial_soc=None):
+    if config is None:
+        config = SimulationConfig()
+    if initial_soc is None:
+        initial_soc = config.initial_soc
+
+    capacity_ah = config.cell_capacity_ah * config.parallel_cells
+    resistance = config.series_cells * 0.008 / config.parallel_cells
+
+    return BatteryPack(
+        "LiPo 10S" + str(config.parallel_cells) + "P",
+        capacity_ah, resistance, LIPO_SOC, LIPO_OCV, initial_soc
+    )
+
+
+def create_nmc_battery(config=None, initial_soc=None):
+    if config is None:
+        config = SimulationConfig()
+    if initial_soc is None:
+        initial_soc = config.initial_soc
+
+    capacity_ah = config.cell_capacity_ah * config.parallel_cells
+    resistance = config.series_cells * 0.007 / config.parallel_cells
+
+    return BatteryPack(
+        "NMC 10S" + str(config.parallel_cells) + "P",
+        capacity_ah, resistance, NMC_SOC, NMC_OCV, initial_soc
+    )
