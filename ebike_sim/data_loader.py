@@ -52,3 +52,8 @@ class GPSDataLoader:
                     "Die benötigte Spalte '" + column + "' fehlt."
                 )
 
+    def prepare_data(self):
+        self.data["time"] = pd.to_datetime(self.data["time"])
+        self.data = self.data.dropna()
+        self.data = self.data.sort_values("time")
+        self.data = self.data.reset_index(drop=True)
