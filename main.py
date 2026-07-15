@@ -4,7 +4,7 @@ import os
 
 from ebike_sim.logging_config import setup_logging
 from ebike_sim.simulator import EBikeSimulator
-
+from ebike_sim.parameter_study import ParameterStudy
 
 def main():
     setup_logging()
@@ -13,6 +13,10 @@ def main():
 
     simulator = EBikeSimulator()
     route_data = simulator.run()
+
+    parameter_study = ParameterStudy(route_data)
+    parameter_results = parameter_study.run()
+    parameter_file = parameter_study.save_results(parameter_results)
 
     if not os.path.exists("output/results"):
         os.makedirs("output/results")
@@ -67,6 +71,10 @@ def main():
     print()
     print("LiPo Ladezustand am Ende:", round(route_data["lipo_soc"].iloc[-1] * 100, 2), "%")
     print("NMC Ladezustand am Ende:", round(route_data["nmc_soc"].iloc[-1] * 100, 2), "%")
+
+
+    print()
+    print("Parameterstudie gespeichert:", parameter_file)
 
     logging.info("Programm wurde ohne Fehler beendet.")
 
