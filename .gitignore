@@ -6,3 +6,8 @@ __pycache__/
 
 # Pytest-Cache
 .pytest_cache/
+
+.DS_Store
+logs/
+*.pyc
+.venv/
