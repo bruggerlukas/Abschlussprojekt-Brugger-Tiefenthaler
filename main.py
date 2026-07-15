@@ -1,4 +1,6 @@
 import logging
+import os
+
 
 from ebike_sim.logging_config import setup_logging
 from ebike_sim.simulator import EBikeSimulator
@@ -11,6 +13,13 @@ def main():
 
     simulator = EBikeSimulator()
     route_data = simulator.run()
+
+    if not os.path.exists("output/results"):
+        os.makedirs("output/results")
+
+    route_data.to_csv("output/results/simulation_results.csv", index=False)
+
+    logging.info("Simulationsergebnisse wurden gespeichert.")
 
     print("E-Bike-Abschlussprojekt")
     print("-----------------------")
