@@ -21,6 +21,29 @@ def main():
 
     logging.info("Simulationsergebnisse wurden gespeichert.")
 
+    total_distance_km = route_data["distance_total_m"].iloc[-1] / 1000
+
+    duration_seconds = route_data["delta_time_s"].sum()
+    duration_minutes = duration_seconds / 60
+    duration_hours = duration_seconds / 3600
+
+    if duration_hours > 0:
+        average_speed_kmh = total_distance_km / duration_hours
+    else:
+        average_speed_kmh = 0.0
+
+    elevation_gain_m = (
+        route_data["height_difference_m"]
+        .clip(lower=0)
+        .sum()
+    )
+
+    elevation_loss_m = -(
+        route_data["height_difference_m"]
+        .clip(upper=0)
+        .sum()
+    )
+
     print("E-Bike-Abschlussprojekt")
     print("-----------------------")
     print("Simulation erfolgreich abgeschlossen.")
