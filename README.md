@@ -6,13 +6,13 @@ Das Programm liest eine aufgezeichnete Route aus einer CSV-Datei ein. Anschließ
 
 Zusätzlich wird der Ladezustand von zwei verschiedenen Akkutypen simuliert:
 
-* LiPo-Akku
-* NMC-Akku
+LiPo-Akku
+NMC-Akku
 
 ## Projektmitglieder
 
-* Brugger
-* Tiefenthaler
+Brugger
+Tiefenthaler
 
 ## Voraussetzungen
 
@@ -26,21 +26,20 @@ Zuerst den Projektordner im Terminal öffnen.
 
 Eine virtuelle Python-Umgebung erstellen:
 
-```powershell
+
 python -m venv .venv
-```
+
 
 Die virtuelle Umgebung aktivieren:
 
-```powershell
 .venv\Scripts\activate
-```
+
 
 Die benötigten Pakete installieren:
 
-```powershell
+
 python -m pip install -r requirements.txt
-```
+
 
 ## Installation unter macOS oder Linux
 
@@ -48,68 +47,164 @@ Zuerst den Projektordner im Terminal öffnen.
 
 Eine virtuelle Python-Umgebung erstellen:
 
-```bash
 python3 -m venv .venv
-```
+
 
 Die virtuelle Umgebung aktivieren:
 
-```bash
+
 source .venv/bin/activate
-```
+
 
 Die benötigten Pakete installieren:
 
-```bash
+
 python3 -m pip install -r requirements.txt
-```
+
 
 ## Programm starten
 
 Unter Windows:
 
-```powershell
 python main.py
-```
+
 
 Unter macOS oder Linux:
 
-```bash
+
 python3 main.py
-```
+
 
 ## Tests starten
 
 Unter Windows:
 
-```powershell
+
 python -m pytest
-```
+
 
 Unter macOS oder Linux:
 
-```bash
+
 python3 -m pytest
-```
+
 
 Wenn alle bisherigen Tests erfolgreich sind, sollte ungefähr folgende Meldung erscheinen:
 
-```text
 4 passed
-```
+
 
 ## Eingangsdaten
 
 Die GPS-Daten befinden sich in dieser Datei:
 
-```text
+
 data/final_project_input_data.csv
-```
+
 
 Die Datei enthält unter anderem:
 
-* Zeitstempel
-* Breitengrad
-* Längengrad
-* Höhe
-* Temperatur
+Zeitstempel
+Breitengrad
+Längengrad
+Höhe
+Temperatur
+
+## Berechnete Werte
+
+Das Programm berechnet momentan:
+
+Entfernung zwischen zwei GPS-Punkten
+gesamte Strecke
+Geschwindigkeit
+Beschleunigung
+Steigung
+benötigte Kraft
+mechanische Leistung
+Drehmoment
+Motorstrom
+Ladezustand eines LiPo-Akkus
+Ladezustand eines NMC-Akkus
+
+## Ausgabedateien
+
+Nach dem Programmstart wird diese Ergebnisdatei erstellt:
+
+output/results/simulation_results.csv
+
+
+Die Datei enthält die ursprünglichen GPS-Daten und die zusätzlich berechneten Werte.
+
+Außerdem wird eine Logdatei erstellt:
+
+logs/simulation.log
+
+
+In der Logdatei werden wichtige Programmschritte und mögliche Fehler gespeichert.
+
+## Projektstruktur
+
+Abschlussprojekt-Brugger-Tiefenthaler/
+├── data/
+│   └── final_project_input_data.csv
+├── docs/
+│   └── Abschlussprojekt.pdf
+├── ebike_sim/
+│   ├── battery.py
+│   ├── config.py
+│   ├── data_loader.py
+│   ├── logging_config.py
+│   ├── physics.py
+│   ├── plotting.py
+│   └── simulator.py
+├── tests/
+│   └── test_battery.py
+├── main.py
+├── README.md
+└── requirements.txt
+
+
+## Bedeutung der wichtigsten Dateien
+
+### main.py
+
+Startet das gesamte Programm und gibt die wichtigsten Ergebnisse im Terminal aus.
+
+### data_loader.py
+
+Liest die GPS-Daten aus der CSV-Datei ein und prüft die benötigten Spalten.
+
+### physics.py
+
+Berechnet die Strecke sowie die physikalischen Größen des E-Bikes.
+
+### battery.py
+
+Enthält die objektorientierten Akkumodelle für LiPo und NMC.
+
+### simulator.py
+
+Verbindet den Datenimport, die physikalischen Berechnungen und die Akkusimulation.
+
+### plotting.py
+
+Wird für die Erstellung der Diagramme verwendet.
+
+### logging_config.py
+
+Richtet die Protokollierung des Programmablaufs ein.
+
+
+## Aktueller Projektstand
+
+Der Simulationskern funktioniert bereits.
+
+Noch zu ergänzen sind unter anderem:
+
+vollständige Fahrtauswertung
+Diagramme
+Höhenprofil
+UML-Klassendiagramm
+Aktivitätsdiagramm
+zusätzliche Tests
+Dokumentation der Annahmen und Quellen
