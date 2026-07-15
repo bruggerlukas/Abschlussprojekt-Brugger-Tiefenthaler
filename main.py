@@ -49,7 +49,15 @@ def main():
     print("Simulation erfolgreich abgeschlossen.")
     print()
     print("Anzahl GPS-Datenpunkte:", len(route_data))
-    print("Strecke:", round(route_data["distance_total_m"].iloc[-1] / 1000, 2), "km")
+    print("Strecke:", round(total_distance_km, 2), "km")
+    print("Fahrtdauer:", round(duration_minutes, 2), "min")
+    print(
+        "Durchschnittsgeschwindigkeit:",
+        round(average_speed_kmh, 2),
+        "km/h"
+    )
+    print("Höhenmeter Anstieg:", round(elevation_gain_m, 2), "m")
+    print("Höhenmeter Abstieg:", round(elevation_loss_m, 2), "m")
     print("Maximale Geschwindigkeit:", round(route_data["velocity_km_h"].max(), 2), "km/h")
     print("Maximale Beschleunigung:", round(route_data["acceleration_m_s2"].max(), 2), "m/s²")
     print("Maximale Steigung:", round(route_data["slope_percent"].max(), 2), "%")
