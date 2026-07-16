@@ -6,6 +6,7 @@ from ebike_sim.logging_config import setup_logging
 from ebike_sim.simulator import EBikeSimulator
 from ebike_sim.parameter_study import ParameterStudy
 from ebike_sim.route_map import RouteMapCreator
+from ebike_sim.plotting import plot_speed
 
 
 
@@ -30,6 +31,16 @@ def main():
     route_data.to_csv("output/results/simulation_results.csv", index=False)
 
     logging.info("Simulationsergebnisse wurden gespeichert.")
+
+    speed_plot_path = plot_speed(
+        route_data,
+        "output/plots"
+    )
+
+    logging.info(
+        "Geschwindigkeitsdiagramm wurde gespeichert: %s",
+        speed_plot_path
+    )
 
     total_distance_km = route_data["distance_total_m"].iloc[-1] / 1000
 
@@ -81,6 +92,7 @@ def main():
 
 
     print()
+    print("Geschwindigkeitsdiagramm:", speed_plot_path)
     print("Parameterstudie gespeichert:", parameter_file)
     print("Karte gespeichert:", map_file)
 
