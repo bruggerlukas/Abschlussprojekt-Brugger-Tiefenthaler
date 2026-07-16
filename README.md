@@ -197,14 +197,129 @@ Richtet die Protokollierung des Programmablaufs ein.
 
 ## Aktueller Projektstand
 
-Der Simulationskern funktioniert bereits.
+Die grundlegende E-Bike-Simulation ist funktionsfähig.
 
-Noch zu ergänzen sind unter anderem:
+Folgende Funktionen sind umgesetzt:
 
-vollständige Fahrtauswertung
-Diagramme
-Höhenprofil
-UML-Klassendiagramm
-Aktivitätsdiagramm
-zusätzliche Tests
-Dokumentation der Annahmen und Quellen
+- Einlesen und Prüfen der GPS-Daten
+- Berechnung der zurückgelegten Strecke
+- Berechnung von Geschwindigkeit und Beschleunigung
+- Berechnung von Steigung und Höhenmetern
+- Berechnung von Kraft, Leistung und Drehmoment
+- Berechnung des Motorstroms
+- Simulation eines LiPo-Akkus
+- Simulation eines NMC-Akkus
+- Darstellung des Ladezustands über die Fahrt
+- Ausgabe der wichtigsten Fahrdaten
+- Erstellung von vier Diagrammen
+- Darstellung der GPS-Route auf einer Karte
+- Durchführung einer Parameterstudie
+- Speicherung der Ergebnisse als CSV-Dateien
+- Logging des Programmablaufs
+- automatische Tests für die Akkumodelle
+
+
+
+
+## Aktivitätsdiagramm
+
+Das Aktivitätsdiagramm zeigt den gesamten Ablauf des Programms.
+
+```mermaid
+flowchart TD
+    A[Programm starten] --> B[Logging einrichten]
+    B --> C[GPS-Daten einlesen]
+    C --> D{Daten gültig?}
+
+    D -- Nein --> E[Fehler protokollieren]
+    E --> F[Programm beenden]
+
+    D -- Ja --> G[Strecke berechnen]
+    G --> H[Geschwindigkeit und Beschleunigung berechnen]
+    H --> I[Steigung und Höhenunterschiede berechnen]
+    I --> J[Kraft, Leistung und Motorstrom berechnen]
+    J --> K[LiPo- und NMC-Akku erstellen]
+    K --> L[Akkus für jeden GPS-Punkt simulieren]
+    L --> M[Simulationsergebnisse speichern]
+    M --> N[GPS-Karte erstellen]
+    N --> O[Parameterstudie durchführen]
+    O --> P[Diagramme erstellen]
+    P --> Q[Fahrtdaten zusammenfassen]
+    Q --> R[Ergebnisse im Terminal ausgeben]
+    R --> S[Programm erfolgreich beenden]
+```
+
+
+## UML-Klassendiagramm
+
+Das Klassendiagramm zeigt die wichtigsten Klassen und ihre Beziehungen.
+
+```mermaid
+classDiagram
+    class EBikeSimulator {
+        +bike_config
+        +simulation_config
+        +run()
+    }
+
+    class GPSDataLoader {
+        +file_path
+        +data
+        +load_data()
+        +check_columns()
+        +prepare_data()
+    }
+
+    class RoutePhysicsCalculator {
+        +data
+        +bike_config
+        +calculate()
+        +calculate_distance()
+        +calculate_motor_values()
+    }
+
+    class BikeConfig {
+        +total_mass_kg
+        +cw_a
+        +wheel_radius_m
+        +motor_constant_nm_per_a
+    }
+
+    class SimulationConfig {
+        +input_file
+        +initial_soc
+        +cell_capacity_ah
+        +parallel_cells
+        +series_cells
+    }
+
+    class BatteryPack {
+        +name
+        +capacity_ah
+        +soc
+        +current_for_power()
+        +apply_current()
+        +apply_power()
+    }
+
+    class ParameterStudy {
+        +route_data
+        +run()
+        +calculate_case()
+        +save_results()
+    }
+
+    class RouteMapCreator {
+        +route_data
+        +create_map()
+    }
+
+    EBikeSimulator --> GPSDataLoader
+    EBikeSimulator --> RoutePhysicsCalculator
+    EBikeSimulator --> BatteryPack
+    EBikeSimulator --> BikeConfig
+    EBikeSimulator --> SimulationConfig
+    RoutePhysicsCalculator --> BikeConfig
+    ParameterStudy --> RoutePhysicsCalculator
+    ParameterStudy --> BikeConfig
+```
