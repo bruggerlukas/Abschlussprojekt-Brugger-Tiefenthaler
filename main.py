@@ -5,6 +5,9 @@ import os
 from ebike_sim.logging_config import setup_logging
 from ebike_sim.simulator import EBikeSimulator
 from ebike_sim.parameter_study import ParameterStudy
+from ebike_sim.route_map import RouteMapCreator
+
+
 
 def main():
     setup_logging()
@@ -13,6 +16,9 @@ def main():
 
     simulator = EBikeSimulator()
     route_data = simulator.run()
+
+    map_creator = RouteMapCreator(route_data)
+    map_file = map_creator.create_map()
 
     parameter_study = ParameterStudy(route_data)
     parameter_results = parameter_study.run()
@@ -73,8 +79,10 @@ def main():
     print("NMC Ladezustand am Ende:", round(route_data["nmc_soc"].iloc[-1] * 100, 2), "%")
 
 
+
     print()
     print("Parameterstudie gespeichert:", parameter_file)
+    print("Karte gespeichert:", map_file)
 
     logging.info("Programm wurde ohne Fehler beendet.")
 
