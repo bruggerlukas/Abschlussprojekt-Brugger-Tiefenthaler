@@ -2,37 +2,10 @@
 
 Python-Anwendung zur Auslegung und Simulation eines E-Bikes anhand realer GPS-Daten.
 
-Die Anwendung liest eine aufgezeichnete Route aus einer CSV-Datei ein und berechnet daraus unter anderem Strecke, Geschwindigkeit, Beschleunigung, Steigung, Antriebskraft, Leistung, Motordrehmoment und Motorstrom. Anschließend wird die Fahrt mit zwei unterschiedlichen Akkutypen simuliert und der Ladezustand über die gesamte Fahrt ausgewertet.
-
 ## Projektmitglieder
 
 - Lukas Brugger
 - Luca Tiefenthaler
-
-## Erfüllung der Minimalanforderungen
-
-| Minimalanforderung | Umsetzung |
-|---|---|
-| Python-Softwareprojekt mit Objektorientierung | Klassen für Simulation, Datenimport, Physik, Akku, Karte, Parameterstudie und Akkuempfehlung |
-| Versionskontrolle mit Git und GitHub | Repository mit inhaltlichen Commits beider Projektmitglieder |
-| GPS-Daten einlesen und auswerten | `GPSDataLoader` und `RoutePhysicsCalculator` |
-| Geschwindigkeit und Beschleunigung | Berechnung für jeden GPS-Abschnitt |
-| Leistung und Steigung | Berechnung aus Geschwindigkeit, Beschleunigung und Höhendaten |
-| Drehmoment und Motorstrom | Berechnung mit Radhalbmesser und Motorkonstante |
-| Durchschnittsgeschwindigkeit | Ausgabe in `main.py` |
-| Zurückgelegte Strecke | Ausgabe in `main.py` |
-| Benötigte Zeit | Ausgabe in Minuten |
-| Höhenmeter Anstieg und Abstieg | Summe der positiven und negativen Höhenänderungen |
-| Maximalleistung | Ausgabe in Watt |
-| Zwei unterschiedliche Akkutypen | LiPo und NMC mit verschiedenen OCV-Kennlinien und Innenwiderständen |
-| Ladezustand über die Fahrt | Simulation für jeden GPS-Zeitschritt |
-| Ladezustand auf 0 bis 100 % begrenzen | Begrenzung im Akkumodell mit `numpy.clip` |
-| Grafische Darstellung | Geschwindigkeit, Leistung, Ladezustand und Höhenprofil |
-| Logging und Fehlerbehandlung | Logdatei, Datenprüfung, Parameterprüfung und Akku-Grenzen |
-| Aktivitätsdiagramm | In dieser README enthalten |
-| UML-Diagramm | In dieser README enthalten |
-| `requirements.txt` | Enthält alle benötigten externen Pakete |
-| Installations- und Startanleitung | In dieser README enthalten |
 
 ## Voraussetzungen
 
