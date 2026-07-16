@@ -1,13 +1,24 @@
-# Python-Cachedateien
+# macOS
+.DS_Store
+
+# Python Cache-Dateien
 __pycache__/
 *.pyc
 *.pyo
-*.pyd
 
-# Pytest-Cache
+# Pytest Cache
 .pytest_cache/
 
-.DS_Store
-logs/
-*.pyc
+# Virtuelle Umgebung
 .venv/
+venv/
+
+# Logdateien
+logs/
+*.log
+
+# VS Code Einstellungen
+.vscode/
+
+# Temporäre Dateien
+*.tmp
