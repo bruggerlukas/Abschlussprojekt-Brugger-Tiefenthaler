@@ -6,7 +6,12 @@ from ebike_sim.logging_config import setup_logging
 from ebike_sim.simulator import EBikeSimulator
 from ebike_sim.parameter_study import ParameterStudy
 from ebike_sim.route_map import RouteMapCreator
-from ebike_sim.plotting import plot_speed
+from ebike_sim.plotting import (
+    plot_elevation,
+    plot_power,
+    plot_soc_comparison,
+    plot_speed,
+)
 
 
 
@@ -37,10 +42,22 @@ def main():
         "output/plots"
     )
 
-    logging.info(
-        "Geschwindigkeitsdiagramm wurde gespeichert: %s",
-        speed_plot_path
+    power_plot_path = plot_power(
+        route_data,
+        "output/plots"
     )
+
+    elevation_plot_path = plot_elevation(
+        route_data,
+        "output/plots"
+    )
+
+    soc_plot_path = plot_soc_comparison(
+        route_data,
+        "output/plots"
+    )
+
+    logging.info("Alle Pflichtdiagramme wurden gespeichert.")
 
     total_distance_km = route_data["distance_total_m"].iloc[-1] / 1000
 
@@ -93,6 +110,9 @@ def main():
 
     print()
     print("Geschwindigkeitsdiagramm:", speed_plot_path)
+    print("Leistungsdiagramm:", power_plot_path)
+    print("Höhenprofil:", elevation_plot_path)
+    print("Akkuvergleich:", soc_plot_path)
     print("Parameterstudie gespeichert:", parameter_file)
     print("Karte gespeichert:", map_file)
 
