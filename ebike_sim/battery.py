@@ -1,3 +1,7 @@
+"""
+Akkumodelle für LiPo- und NMC-Akkus.
+"""
+
 import logging
 from math import sqrt
 import numpy as np

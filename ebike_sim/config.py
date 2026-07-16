@@ -1,15 +1,12 @@
 """
-In dieser Datei stehen die festen Werte aus der Aufgabenstellung.
-Diese Werte werden später in der Simulation verwendet.
+Konfiguration und Grundparameter für die Simulation.
 """
 
 import os
 
 
 class BikeConfig:
-    """
-    Speichert die Fahrrad- und Fahrerparameter.
-    """
+
 
     def __init__(self):
         # Werte aus der Aufgabenstellung
@@ -39,9 +36,7 @@ class BikeConfig:
 
 
 class SimulationConfig:
-    """
-    Speichert allgemeine Einstellungen für die Simulation.
-    """
+
 
     def __init__(
         self,
@@ -72,10 +67,6 @@ class SimulationConfig:
 
 
 def create_output_folders():
-    """
-    Erstellt alle benötigten Ausgabeordner,
-    falls sie noch nicht vorhanden sind.
-    """
 
     folders = [
         "output",

@@ -1,3 +1,7 @@
+"""
+Durchführen einer Parameterstudie für verschiedene Simulationswerte.
+"""
+
 import os
 import pandas as pd
 

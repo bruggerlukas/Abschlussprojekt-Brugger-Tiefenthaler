@@ -1,3 +1,7 @@
+"""
+Einrichtung des Loggings für den Programmablauf.
+"""
+
 import logging
 import os
 

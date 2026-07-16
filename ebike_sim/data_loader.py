@@ -1,5 +1,5 @@
 """
-Einlesen und Prüfen der GPS-Daten.
+Einlesen und Vorbereiten der GPS-Daten.
 """
 
 import logging

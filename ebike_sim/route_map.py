@@ -1,3 +1,7 @@
+"""
+Erstellen einer interaktiven Karte aus den GPS-Daten.
+"""
+
 import os
 import folium
 

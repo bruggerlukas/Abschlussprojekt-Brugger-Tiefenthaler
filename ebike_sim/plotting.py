@@ -1,4 +1,7 @@
-"""Plot- und Kartenfunktionen für das Abschlussprojekt."""
+"""
+Erstellen und Speichern der Diagramme.
+"""
+
 from pathlib import Path
 import logging
 

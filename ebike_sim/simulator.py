@@ -1,3 +1,7 @@
+"""
+Steuerung des gesamten Simulationsablaufs.
+"""
+
 import logging
 
 from ebike_sim.config import BikeConfig, SimulationConfig, create_output_folders

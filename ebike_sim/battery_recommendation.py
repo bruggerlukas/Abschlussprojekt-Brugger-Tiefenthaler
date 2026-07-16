@@ -1,3 +1,7 @@
+"""
+Berechnung einer empfohlenen Akkukapazität mit Sicherheitsreserve.
+"""
+
 class BatteryRecommendation:
 
     def __init__(self, route_data):
