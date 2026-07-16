@@ -14,8 +14,6 @@ from ebike_sim.plotting import (
     plot_speed,
 )
 
-
-
 def main():
     setup_logging()
 
@@ -110,7 +108,6 @@ def main():
     print()
     print("LiPo Ladezustand am Ende:", round(route_data["lipo_soc"].iloc[-1] * 100, 2), "%")
     print("NMC Ladezustand am Ende:", round(route_data["nmc_soc"].iloc[-1] * 100, 2), "%")
-
 
 
     print()
