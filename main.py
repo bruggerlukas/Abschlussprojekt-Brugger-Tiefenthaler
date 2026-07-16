@@ -6,6 +6,7 @@ from ebike_sim.logging_config import setup_logging
 from ebike_sim.simulator import EBikeSimulator
 from ebike_sim.parameter_study import ParameterStudy
 from ebike_sim.route_map import RouteMapCreator
+from ebike_sim.battery_recommendation import BatteryRecommendation
 from ebike_sim.plotting import (
     plot_elevation,
     plot_power,
@@ -22,6 +23,10 @@ def main():
 
     simulator = EBikeSimulator()
     route_data = simulator.run()
+
+
+    battery_recommendation = BatteryRecommendation(route_data)
+    battery_recommendation_result = battery_recommendation.calculate()
 
     map_creator = RouteMapCreator(route_data)
     map_file = map_creator.create_map()
@@ -116,6 +121,14 @@ def main():
     print("Parameterstudie gespeichert:", parameter_file)
     print("Karte gespeichert:", map_file)
 
+
+    print()
+    print("Akku-Empfehlung:")
+    print("Benötigte Energie:", round(battery_recommendation_result["energy_wh"], 2), "Wh")
+    print("Empfohlene Energie mit 20 Prozent Reserve:", round(battery_recommendation_result["recommended_energy_wh"], 2), "Wh")
+    print("Empfohlene Akkukapazität:", round(battery_recommendation_result["recommended_capacity_ah"], 2), "Ah bei 37 V")
+    
+    print()
     logging.info("Programm wurde ohne Fehler beendet.")
 
 
